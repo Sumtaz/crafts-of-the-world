@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "crafts-map",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "/Users/sumairha/Documents/Claude Code/Interactive Crafts Map"],
+      "port": 8090
+    }
+  ]
+}
