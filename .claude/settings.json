@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command // \"\"' | { read -r cmd; if echo \"$cmd\" | grep -qP '^\\s*rm\\s|^\\s*rmdir\\s'; then echo '{\"decision\":\"block\",\"reason\":\"⚠️ BLOCKED: rm/rmdir command. Ask the user first.\"}'; else echo '{}'; fi; }",
+            "timeout": 5,
+            "statusMessage": "Checking for destructive commands..."
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // \"unknown\"' | { read -r f; echo \"{\\\"systemMessage\\\":\\\"📝 Writing to: $f\\\"}\"; }",
+            "timeout": 5,
+            "statusMessage": "Logging file write..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // \"unknown\"' | { read -r f; echo \"{\\\"systemMessage\\\":\\\"✏️ Editing: $f\\\"}\"; }",
+            "timeout": 5,
+            "statusMessage": "Logging file edit..."
+          }
+        ]
+      }
+    ]
+  }
+}
