@@ -1942,13 +1942,50 @@
         document.documentElement.style.setProperty('--marker-size', size + 'px');
         document.documentElement.style.setProperty('--marker-font', font + 'px');
     }
+    function resolveIconOverlaps(activeMarkers) {
+        // Restore real lat/lng first
+        activeMarkers.forEach(m => m.setLatLng(L.latLng(m.craftData.lat, m.craftData.lng)));
+        const zoom = map.getZoom();
+        if (zoom < 6 || activeMarkers.length < 2) return;
+
+        const minDist = 36; // icon is 34px, 2px gap
+        const pts = activeMarkers.map(m => {
+            const p = map.latLngToLayerPoint(L.latLng(m.craftData.lat, m.craftData.lng));
+            return { x: p.x, y: p.y, ox: p.x, oy: p.y, marker: m };
+        });
+
+        for (let iter = 0; iter < 40; iter++) {
+            for (let i = 0; i < pts.length; i++) {
+                for (let j = i + 1; j < pts.length; j++) {
+                    const dx = pts[j].x - pts[i].x;
+                    const dy = pts[j].y - pts[i].y;
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 < minDist * minDist && d2 > 0.001) {
+                        const d = Math.sqrt(d2);
+                        const push = (minDist - d) / 2 + 0.5;
+                        const nx = dx / d, ny = dy / d;
+                        pts[i].x -= nx * push;
+                        pts[i].y -= ny * push;
+                        pts[j].x += nx * push;
+                        pts[j].y += ny * push;
+                    }
+                }
+            }
+            // Gentle pull back toward real position
+            pts.forEach(p => {
+                p.x += (p.ox - p.x) * 0.08;
+                p.y += (p.oy - p.y) * 0.08;
+            });
+        }
+
+        pts.forEach(p => p.marker.setLatLng(map.layerPointToLatLng(L.point(p.x, p.y))));
+    }
+
     map.on('zoomend', () => {
         updateMarkerScale();
-        markers.forEach(m => {
-            if (markerLayer && markerLayer.hasLayer(m)) {
-                m.setIcon(createMarkerIcon(m.craftData));
-            }
-        });
+        const active = markers.filter(m => markerLayer && markerLayer.hasLayer(m));
+        active.forEach(m => m.setIcon(createMarkerIcon(m.craftData)));
+        resolveIconOverlaps(active);
     });
     updateMarkerScale();
 
@@ -2134,6 +2171,7 @@
         markerLayer = L.layerGroup();
         filtered.forEach(m => markerLayer.addLayer(m));
         map.addLayer(markerLayer);
+        resolveIconOverlaps(filtered);
         document.getElementById('craftCount').innerHTML =
             `Showing <strong>${filtered.length}</strong> of <strong>${crafts.length}</strong> crafts`;
         // Mute material chips that don't apply to selected craft types
