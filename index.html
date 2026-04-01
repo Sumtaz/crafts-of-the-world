@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crafts of the World</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -364,6 +362,16 @@
         .craft-marker:hover {
             transform: scale(1.2);
             box-shadow: 0 3px 10px rgba(0,0,0,0.25), 0 0 0 2px rgba(255,255,255,0.8);
+        }
+        .craft-dot {
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        }
+        .craft-dot:hover {
+            transform: scale(1.6);
+            opacity: 1 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.45), 0 0 0 2px rgba(255,255,255,0.85) !important;
         }
 
         .craft-marker.type-clothing   { background: #c0506a; }
@@ -887,7 +895,6 @@
     <div class="title-bar">
         <div class="subtitle">A Cartographic Survey of</div>
         <h1>CRAFTS OF THE WORLD</h1>
-        <div class="byline">Handmade traditions across the globe</div>
     </div>
 
     <!-- Filter Panel -->
@@ -938,7 +945,6 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script>
     // ─────────────────────────────────────
     //  CRAFTS DATA
@@ -1900,13 +1906,8 @@
     const craftPanelContent = document.getElementById('craftPanelContent');
     const craftPanelClose = document.getElementById('craftPanelClose');
 
-    let lastClusterCrafts = null; // Track cluster context for back button
-
-    function openCraftPanel(craft, fromCluster) {
-        const backBtn = fromCluster
-            ? `<button class="craft-panel-back" onclick="window._showLastCluster()">← Back to list</button>`
-            : '';
-        craftPanelContent.innerHTML = backBtn + createPopupContent(craft);
+    function openCraftPanel(craft) {
+        craftPanelContent.innerHTML = createPopupContent(craft);
         craftPanel.classList.add('open');
         craftPanel.scrollTop = 0;
         if (!craft.image) {
@@ -1915,49 +1916,14 @@
         }
     }
 
-    window._showLastCluster = function() {
-        if (lastClusterCrafts) showClusterGrid(lastClusterCrafts);
-    };
-
     function closeCraftPanel() {
         craftPanel.classList.remove('open');
-        lastClusterCrafts = null;
     }
 
-    function showClusterGrid(clusterCrafts) {
-        lastClusterCrafts = clusterCrafts; // Save for back navigation
-        // Sort by type then name
-        clusterCrafts.sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
-        const tc = (type) => typeConfig[type] || { icon: '📍', color: '#999' };
-
-        const html = `
-            <div class="cluster-grid-header">
-                <h3>${clusterCrafts.length} crafts in this area</h3>
-            </div>
-            <div class="cluster-grid">
-                ${clusterCrafts.map(craft => `
-                    <div class="cluster-card" data-craft-name="${craft.name.replace(/"/g, '&quot;')}" onclick="window._openCraftByName(this.dataset.craftName)">
-                        <div class="cluster-card-img" style="background-image: url('${craft.image || ''}'); background-color: ${tc(craft.type).color}15;">
-                            ${!craft.image ? `<span class="cluster-card-emoji">${tc(craft.type).icon}</span>` : ''}
-                        </div>
-                        <div class="cluster-card-info">
-                            <span class="cluster-card-type" style="color: ${tc(craft.type).color}">${tc(craft.type).icon} ${craft.type}</span>
-                            <span class="cluster-card-name">${craft.name}</span>
-                            <span class="cluster-card-loc">${craft.state}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-
-        craftPanelContent.innerHTML = html;
-        craftPanel.classList.add('open');
-    }
-
-    // Global handler for cluster card clicks
+    // Global handler for marker clicks
     window._openCraftByName = function(name) {
         const craft = crafts.find(c => c.name === name);
-        if (craft) openCraftPanel(craft, true);
+        if (craft) openCraftPanel(craft);
     };
 
     craftPanelClose.addEventListener('click', closeCraftPanel);
@@ -1976,17 +1942,41 @@
         document.documentElement.style.setProperty('--marker-size', size + 'px');
         document.documentElement.style.setProperty('--marker-font', font + 'px');
     }
-    map.on('zoomend', updateMarkerScale);
+    map.on('zoomend', () => {
+        updateMarkerScale();
+        markers.forEach(m => {
+            if (markerLayer && markerLayer.hasLayer(m)) {
+                m.setIcon(createMarkerIcon(m.craftData));
+            }
+        });
+    });
     updateMarkerScale();
 
     function createMarkerIcon(craft) {
         const tc = typeConfig[craft.type];
-        return L.divIcon({
-            className: '',
-            html: `<div class="craft-marker type-${tc.cssClass}">${tc.icon}</div>`,
-            iconSize: [34, 34],
-            iconAnchor: [17, 17],
-        });
+        const zoom = map.getZoom();
+        if (zoom <= 3) {
+            return L.divIcon({
+                className: '',
+                html: `<div class="craft-dot" style="width:11px;height:11px;background:${tc.color};opacity:0.88;box-shadow:0 1px 3px rgba(0,0,0,0.45);"></div>`,
+                iconSize: [11, 11],
+                iconAnchor: [5, 5],
+            });
+        } else if (zoom <= 5) {
+            return L.divIcon({
+                className: '',
+                html: `<div class="craft-dot" style="width:14px;height:14px;background:${tc.color};opacity:0.9;box-shadow:0 1px 4px rgba(0,0,0,0.35);"></div>`,
+                iconSize: [14, 14],
+                iconAnchor: [7, 7],
+            });
+        } else {
+            return L.divIcon({
+                className: '',
+                html: `<div class="craft-marker type-${tc.cssClass}">${tc.icon}</div>`,
+                iconSize: [34, 34],
+                iconAnchor: [17, 17],
+            });
+        }
     }
 
     crafts.forEach(craft => {
@@ -1998,51 +1988,7 @@
         markers.push(marker);
     });
 
-    // Cluster color: yellow (low count) → green (high count)
-    function clusterColor(count) {
-        // Clamp between 2 and 20 for gradient
-        const t = Math.min(1, Math.max(0, (count - 2) / 18));
-        // Yellow (#c9a832) → Teal-green (#3a8a5c)
-        const r = Math.round(201 - t * 143);
-        const g = Math.round(168 + t * (138 - 168));
-        const b = Math.round(50 + t * (92 - 50));
-        return `rgb(${r},${g},${b})`;
-    }
-
-    function createClusterIcon(cluster) {
-        const count = cluster.getChildCount();
-        const color = clusterColor(count);
-        const s = count > 30 ? 44 : count > 10 ? 40 : 36;
-        return L.divIcon({
-            html: '<div style="background:' + color + '">' + count + '</div>',
-            className: 'marker-cluster',
-            iconSize: L.point(s, s),
-        });
-    }
-
-    let markerLayer = L.markerClusterGroup({
-        maxClusterRadius: 40,
-        spiderfyOnMaxZoom: true,
-        spiderfyDistanceMultiplier: 2.5,
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: false,
-        disableClusteringAtZoom: null,
-        iconCreateFunction: createClusterIcon,
-    });
-    // Smart cluster click: spiderfy small clusters, zoom+list for large ones
-    markerLayer.on('clusterclick', function(e) {
-        var count = e.layer.getChildCount();
-        if (count <= 8) {
-            e.layer.spiderfy();
-        } else {
-            // Zoom into the cluster region
-            e.layer.zoomToBounds({ padding: [40, 40] });
-            // Show grid list of crafts in this cluster
-            var childMarkers = e.layer.getAllChildMarkers();
-            var clusterCrafts = childMarkers.map(m => m.craftData).filter(Boolean);
-            showClusterGrid(clusterCrafts);
-        }
-    });
+    let markerLayer = L.layerGroup();
     markers.forEach(m => markerLayer.addLayer(m));
     map.addLayer(markerLayer);
 
@@ -2185,26 +2131,7 @@
             }
             return true;
         });
-        markerLayer = L.markerClusterGroup({
-            maxClusterRadius: 40,
-            spiderfyOnMaxZoom: true,
-            spiderfyDistanceMultiplier: 2.5,
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: false,
-            disableClusteringAtZoom: null,
-            iconCreateFunction: createClusterIcon,
-        });
-        markerLayer.on('clusterclick', function(e) {
-            var count = e.layer.getChildCount();
-            if (count <= 8) {
-                e.layer.spiderfy();
-            } else {
-                e.layer.zoomToBounds({ padding: [40, 40] });
-                var childMarkers = e.layer.getAllChildMarkers();
-                var clusterCrafts = childMarkers.map(m => m.craftData).filter(Boolean);
-                showClusterGrid(clusterCrafts);
-            }
-        });
+        markerLayer = L.layerGroup();
         filtered.forEach(m => markerLayer.addLayer(m));
         map.addLayer(markerLayer);
         document.getElementById('craftCount').innerHTML =
