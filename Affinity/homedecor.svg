@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 26 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-3.70163,-4.65243)">
+        <g id="homedecor" transform="matrix(1,0,0,1,0.383748,3.19569)">
+            <path d="M3.818,15.664C5.54,11.714 13.326,2.985 14.243,1.957C15.283,3.309 22.958,7.232 27.901,13.164C27.968,13.245 28.047,13.314 28.109,13.407C28.126,13.433 28.123,13.456 28.144,13.477" style="fill:none;stroke:black;stroke-width:1px;"/>
+            <path d="M7.461,10.829C7.457,11.925 7.456,12.236 8.325,24.5C14.683,24.242 16.988,24.639 22.858,24.639" style="fill:none;stroke:black;stroke-width:1px;"/>
+            <path d="M23.971,9.791C24.483,12.861 23.726,23.498 23.762,25.126L23.032,25.126" style="fill:none;stroke:black;stroke-width:1px;"/>
+        </g>
+    </g>
+</svg>

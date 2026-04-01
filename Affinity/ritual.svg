@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 9 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-11.144,-1.11996)">
+        <g id="rituals" transform="matrix(1.14156,0,0,1.14156,-1.64838,-0.229328)">
+            <path d="M14.125,8.493C13.967,8.432 13.656,8.313 13.25,6.556C12.644,3.927 14.051,2.521 14.592,1.62C17.734,6.476 16.649,7.263 14.788,8.504" style="fill:none;stroke:black;stroke-width:0.88px;"/>
+            <path d="M13.195,8.005C12.232,8.196 11.683,7.395 11.661,8.35C11.632,9.626 11.559,12.824 12.276,24.293C12.441,26.924 14.677,26.731 17.556,26.805" style="fill:none;stroke:black;stroke-width:0.88px;"/>
+            <path d="M16.379,7.91C18.683,7.692 18.223,9.068 18.223,22.858C18.223,24.919 18.765,26.276 16.992,26.497" style="fill:none;stroke:black;stroke-width:0.88px;"/>
+        </g>
+    </g>
+</svg>

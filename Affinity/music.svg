@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 25 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-3.19364,-2.66625)">
+        <g transform="matrix(1.31167,0,0,1.20438,-1.15121,-5.86542)">
+            <g id="music">
+                <path d="M8.024,22.912C7.715,21.161 2.294,21.725 4.039,26.414C4.253,26.991 6.638,28.787 8.672,24.643C8.845,24.291 10.038,19.893 10.09,19.519C11.088,12.283 9.764,9.974 8.89,7.499C9.986,8.732 15.83,11.369 21.742,9.744C18.393,12.573 19.928,25.368 15.704,28.35C13.975,29.57 11.716,27.352 12.488,25.324C13.233,23.369 16.063,22.861 17.312,23.798" style="fill:none;stroke:black;stroke-width:0.79px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

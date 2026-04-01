@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 30 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-0.852919,-7.05937)">
+        <g id="kitchenware" transform="matrix(1.11492,0,0,1.11492,-3.20114,-1.42212)">
+            <path d="M6.471,11.069C11.025,8.337 25.383,7.471 26.127,10.695C26.441,12.055 15.327,12.689 12.287,12.781C8.192,12.905 5.531,12.023 6.793,11.077" style="fill:none;stroke:black;stroke-width:0.9px;"/>
+            <path d="M6.897,12.329C6.925,12.77 8.55,22.362 8.566,22.379C11.343,25.155 21.472,24.636 22.615,23.874" style="fill:none;stroke:black;stroke-width:0.9px;"/>
+            <path d="M26.112,10.995C26.158,12.108 27.504,20.474 25.536,22.344C24.673,23.163 24.726,23.215 23.658,23.7C22.736,24.12 22.732,24.042 21.711,24.083" style="fill:none;stroke:black;stroke-width:0.9px;"/>
+            <path d="M8.377,9.996C8.625,9.481 6.028,8.68 4.393,11.321C3.515,12.74 4.569,13.065 6.828,14.033C8.345,14.683 9.162,13.82 10.201,12.781" style="fill:none;stroke:black;stroke-width:0.9px;"/>
+            <path d="M22.492,8.794C23.04,8.445 24.09,7.237 27.414,8.956C30.073,10.331 29.786,13.598 27.344,14.068C22.062,15.084 22.238,12.729 22.163,12.503" style="fill:none;stroke:black;stroke-width:0.9px;"/>
+        </g>
+    </g>
+</svg>

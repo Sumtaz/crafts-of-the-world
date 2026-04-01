@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 15 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-9.03977,-2.95526)">
+        <g id="sculpture">
+            <path d="M16.188,3.836C12.602,1.619 10.208,9.794 14.339,10.138C16.896,10.351 19.14,4.506 16.425,3.601" style="fill:none;stroke:black;stroke-width:1px;"/>
+            <path d="M12.53,9.408C9.907,10.458 8.132,23.549 11.035,17.163C11.612,15.894 12.725,16.282 12.774,18.38C12.853,21.77 11.162,27.05 15.973,28.012C17.969,28.411 18.074,27.46 18.094,27.282C18.132,26.945 18.341,26.995 18.998,23.144C19.558,19.864 18.668,16.272 20.598,19.006C22.527,21.738 23.092,18.631 22.337,17.337C21.02,15.078 21.028,13.281 16.842,9.095" style="fill:none;stroke:black;stroke-width:1px;"/>
+        </g>
+    </g>
+</svg>
